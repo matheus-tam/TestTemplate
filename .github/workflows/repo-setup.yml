@@ -1,0 +1,26 @@
+name: Repository Setup
+
+on:
+  create:
+    branches:
+      - prd
+
+jobs:
+  setup_repo:
+    runs-on: ubuntu-latest
+    if: github.event.ref_type == 'branch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create dev branch
+        run: |
+          git checkout -b dev
+          git push -u origin dev
+
+      - name: Set repository variables
+        env:
+          GH_TOKEN: \${{ secrets.TOKEN_GITHUB }}
+        run: |
+          gh variable set FOLDER --body "Shared"
+          gh variable set API_URL --body "https://api.example.com"
