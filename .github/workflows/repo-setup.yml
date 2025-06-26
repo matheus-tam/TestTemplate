@@ -1,14 +1,14 @@
 name: Repository Setup
 
 on:
-  create:
+  push:
     branches:
       - prd
 
 jobs:
   setup_repo:
     runs-on: ubuntu-latest
-    if: github.event.ref_type == 'branch'
+    if: github.run_number == 1
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
