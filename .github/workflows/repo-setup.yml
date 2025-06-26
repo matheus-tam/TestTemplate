@@ -22,5 +22,5 @@ jobs:
         env:
           GH_TOKEN: \${{ secrets.TOKEN_GITHUB }}
         run: |
-          gh variable set FOLDER --body "Shared"
+          gh variable set FOLDER --body "FolderName"
           gh variable set API_URL --body "https://api.example.com"
