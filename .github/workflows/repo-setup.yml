@@ -21,7 +21,7 @@ jobs:
       - name: Create repository variable
         uses: actions/github-script@v6
         with:
-          github-token: \${{secrets.GITHUB_TOKEN}}
+          github-token: \${{secrets.TOKEN_GITHUB}}
           script: |
             github.rest.actions.createRepoVariable({
               owner: context.repo.owner,
