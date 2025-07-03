@@ -2,7 +2,7 @@ name: Call Main CiCd
 run-name: ${{ github.actor }} has launched the ${{ github.head_ref || github.ref_name }} pipeline for commit ${{github.sha}}
 on:
   push:
-    branches: [ uat, prd ]
+    branches: [ uat, main ]
 jobs:
   download-latest-code:
     runs-on: uipath-cli
