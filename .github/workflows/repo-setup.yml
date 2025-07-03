@@ -13,7 +13,7 @@ jobs:
 
       - name: Create dev branch from main
         run: |
-          git checkout main
+          git checkout prd
           git pull
           git checkout -b dev
           git push -u origin dev
