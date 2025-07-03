@@ -1,26 +1,31 @@
 name: Repository Setup
 
 on:
-  push:
-    branches:
-      - prd
+  workflow_dispatch:
 
 jobs:
-  setup_repo:
+  create_dev_branch_and_variable:
     runs-on: ubuntu-latest
-    if: github.run_number == 1
+    #if: github.run_number == 1
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Create dev branch
+      - name: Create dev branch from main
         run: |
+          git checkout main
+          git pull
           git checkout -b dev
           git push -u origin dev
 
-      - name: Set repository variables
-        env:
-          GH_TOKEN: \${{ secrets.TOKEN_GITHUB }}
-        run: |
-          gh variable set FOLDER --body "FolderName"
-          gh variable set API_URL --body "https://api.example.com"
+      - name: Create repository variable
+        uses: actions/github-script@v6
+        with:
+          github-token: \${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.actions.createRepoVariable({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'FOLDER_NAME',
+              value: 'Shared'
+            })
