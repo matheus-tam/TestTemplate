@@ -18,14 +18,8 @@ jobs:
           git checkout -b dev
           git push -u origin dev
 
-      - name: Create repository variable
-        uses: actions/github-script@v6
-        with:
-          github-token: \${{secrets.TOKEN_GITHUB}}
-          script: |
-            github.rest.actions.createRepoVariable({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'FOLDER_NAME',
-              value: 'Shared'
-            })
+      - name: Set repository variable
+        env:
+          GH_TOKEN: \${{ secrets.TOKEN_GITHUB }}
+        run: |
+          gh variable set FOLDER_NAME --body "Shared"
