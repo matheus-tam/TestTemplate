@@ -13,10 +13,16 @@ jobs:
 
       - name: Create dev branch from main
         run: |
-          git checkout prd
-          git pull
-          git checkout -b dev
-          git push -u origin dev
+          git fetch origin
+          if git ls-remote --exit-code --heads origin dev; then
+            echo "Dev branch already exists. Skipping creation."
+          else
+            git checkout prd
+            git pull
+            git checkout -b dev
+            git push -u origin dev
+            echo "Dev branch created and pushed."
+          fi
 
       - name: Set repository variable
         env:
