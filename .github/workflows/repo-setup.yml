@@ -26,6 +26,6 @@ jobs:
 
       - name: Set repository variable
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         run: |
           gh variable set FOLDER_NAME --body "Shared"
