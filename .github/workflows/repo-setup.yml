@@ -24,12 +24,8 @@ jobs:
             echo "Dev branch created and pushed."
           fi
 
-      - name: Authenticate with GitHub CLI
-        env:
-          GH_TOKEN: \${{ secrets.TOKEN_GITHUB }}
-        run: |
-          echo "\$GH_TOKEN" | gh auth login --with-token
-
       - name: Set repository variable
+        env:
+          GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
         run: |
           gh variable set FOLDER_NAME --body "Shared"
