@@ -28,4 +28,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         run: |
+          gh auth login --with-token < <(echo "$GH_TOKEN")
           gh variable set FOLDER_NAME --body "Shared"
