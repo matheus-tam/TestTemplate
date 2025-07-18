@@ -21,12 +21,6 @@ jobs:
           echo "::set-output name=results::$content"
       shell: pwsh
 
-    - name: Install GitHub CLI on Windows
-      run: |
-        Invoke-WebRequest -Uri https://github.com/cli/cli/releases/download/v2.45.0/gh_2.45.0_windows_amd64.msi -OutFile ghcli.msi
-        Start-Process msiexec.exe -Wait -ArgumentList '/i', 'ghcli.msi', '/quiet'
-      shell: pwsh
-
     - name: Comment on PR using GitHub CLI
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
