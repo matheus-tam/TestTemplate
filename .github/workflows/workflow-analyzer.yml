@@ -6,7 +6,7 @@ on:
 
 jobs:
   analyze-and-comment:
-    runs-on: UIPATHLENOVO
+    runs-on: [self-hosted]
     steps:
     - uses: actions/checkout@v2
 
