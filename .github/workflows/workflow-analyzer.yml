@@ -26,30 +26,33 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh
       run: |
-           # Read and parse the JSON
-           $json = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw | ConvertFrom-Json
-  
-           # Initialize Markdown table
-           $table = @"
-           📊 **UiPath CLI Analysis Results**
-      
-           | Description | Recommendation |
-           |-------------|----------------|
-           "@
-      
-           # Loop through each rule violation and build rows
-           foreach ($item in $json) {
-            $desc = ($item.Description -replace '\|','\|').Trim()
-            $rec = ($item.Recommendation -replace '\|','\|').Trim()
-      
-            # Escape newlines and markdown-breaking characters
-            $desc = $desc -replace '\r?\n',' '
-            $rec = $rec -replace '\r?\n',' '
-      
-            $table += "| $desc | $rec |`n"
-           }
-      
-            # Post the comment
-            gh pr comment ${{ github.event.pull_request.number }} --body "$table"
+            # Read and parse the JSON
+            $json = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw | ConvertFrom-Json
+        
+            # Start building the Markdown table
+            $lines = @()
+            $lines += "🔎 **UiPath Analyzer Rule Summary**"
+            $lines += ""
+            $lines += "| Description | Recommendation |"
+            $lines += "|-------------|----------------|"
+        
+            foreach ($item in $json) {
+              $desc = ($item.Description -replace '\|','\|') -replace '\r?\n', ' '
+              $rec  = ($item.Recommendation -replace '\|','\|') -replace '\r?\n', ' '
+        
+              # Escape markdown special characters inside cells
+              $desc = $desc.Replace("`", "\`").Trim()
+              $rec = $rec.Replace("`", "\`").Trim()
+        
+              $lines += "| $desc | $rec |"
+            }
+        
+            $lines += ""
+            $lines += "_For full details, see the uploaded artifact attachment._"
+        
+            # Join all lines and post comment
+            $body = $lines -join "`n"
+        
+            gh pr comment ${{ github.event.pull_request.number }} --body "$body"
          
       
