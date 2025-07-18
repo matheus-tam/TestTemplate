@@ -16,8 +16,11 @@ jobs:
         
     - name: Read results.json
       id: results
-      run: echo "::set-output name=content::\$(cat results.json)"
-      shell: bash
+      run: |
+          $content = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
+          echo "::set-output name=results::$content"
+      shell: pwsh
+
 
     - name: Comment PR
       uses: actions/github-script@v6
