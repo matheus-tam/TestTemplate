@@ -1,4 +1,4 @@
-name: Analyze Package and Comment on PR
+name: Analyze Package and Comment on PR with results
 
 on:
   pull_request:
