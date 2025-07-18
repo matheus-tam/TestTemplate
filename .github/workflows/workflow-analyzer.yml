@@ -26,12 +26,30 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh
       run: |
-         $json = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
-         $body = @"
-         **UiPath CLI Analysis Results**
-         $json
-         "@
-
-          gh pr comment ${{ github.event.pull_request.number }} --body "$body"
+           # Read and parse the JSON
+           $json = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw | ConvertFrom-Json
+  
+           # Initialize Markdown table
+           $table = @"
+           📊 **UiPath CLI Analysis Results**
+      
+           | Description | Recommendation |
+           |-------------|----------------|
+           "@
+      
+           # Loop through each rule violation and build rows
+           foreach ($item in $json) {
+            $desc = ($item.Description -replace '\|','\|').Trim()
+            $rec = ($item.Recommendation -replace '\|','\|').Trim()
+      
+            # Escape newlines and markdown-breaking characters
+            $desc = $desc -replace '\r?\n',' '
+            $rec = $rec -replace '\r?\n',' '
+      
+            $table += "| $desc | $rec |`n"
+           }
+      
+            # Post the comment
+            gh pr comment ${{ github.event.pull_request.number }} --body "$table"
          
       
