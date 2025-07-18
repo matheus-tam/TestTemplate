@@ -14,23 +14,24 @@ jobs:
       run: |
         uipcli package analyze "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\project.json" --analyzerTraceLevel "Error" --governanceFilePath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\uipath.policy.Development.json" --resultPath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json"
         
-    - name: Read results.json
-      id: results
-      run: |
-          $content = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
-          echo "::set-output name=results::$content"
-      shell: pwsh
+    # - name: Read results.json
+    #   id: results
+    #   run: |
+    #       $content = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
+    #       echo "::set-output name=results::$content"
+    #   shell: pwsh
 
     - name: Comment on PR using GitHub CLI
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: pwsh
       run: |
-         $results = @"
-          **UiPath CLI Analysis Results**
-         ${{ steps.results.outputs.results }}
+         $json = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
+         $body = @"
+         **UiPath CLI Analysis Results**
+         $json
          "@
-         
-          gh pr comment ${{ github.event.pull_request.number }} --body "$results"
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$body"
          
       
