@@ -6,7 +6,7 @@ on:
 
 jobs:
   analyze-and-comment:
-    runs-on: windows-latest
+    runs-on: UIPATHLENOVO
     steps:
     - uses: actions/checkout@v2
 
