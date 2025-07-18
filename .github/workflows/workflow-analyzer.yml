@@ -25,6 +25,7 @@ jobs:
     - name: Comment on PR using GitHub CLI
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      shell: bash
       run: |
          gh pr comment ${{ github.event.pull_request.number }} \
          --body "📊 **UiPath CLI Analysis Results**```${{ steps.read_results.outputs.results }}```"
