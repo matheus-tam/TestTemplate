@@ -12,7 +12,7 @@ jobs:
 
     - name: Analyze Package
       run: |
-        uipcli package analyze "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\project.json" --analyzerTraceLevel "Error" --governanceFilePath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\uipath.policy.Development.json" --resultPath "results.json"
+        uipcli package analyze "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\project.json" --analyzerTraceLevel "Error" --governanceFilePath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\uipath.policy.Development.json" --resultPath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json"
         
     - name: Read results.json
       id: results
