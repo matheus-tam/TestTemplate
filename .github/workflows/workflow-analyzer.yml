@@ -1,4 +1,4 @@
-name: Analyze Package and Comment on PR
+name: Analyze Package and Comment on PR with results
 
 on:
   pull_request:
@@ -6,27 +6,32 @@ on:
 
 jobs:
   analyze-and-comment:
-    runs-on: UIPATHLENOVO
+    runs-on: [self-hosted]
     steps:
     - uses: actions/checkout@v2
 
     - name: Analyze Package
       run: |
-        uipcli package analyze "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\project.json" --analyzerTraceLevel "Error" --stopOnRuleViolation --governanceFilePath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\uipath.policy.Development.json" --resultPath "results.json"
+        uipcli package analyze "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\project.json" --analyzerTraceLevel "Error" --governanceFilePath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\uipath.policy.Development.json" --resultPath "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json"
         
-    - name: Read results.json
-      id: results
-      run: echo "::set-output name=content::\$(cat results.json)"
-      shell: bash
+    # - name: Read results.json
+    #   id: results
+    #   run: |
+    #       $content = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
+    #       echo "::set-output name=results::$content"
+    #   shell: pwsh
 
-    - name: Comment PR
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: 'Analysis Results:\n```json\n' + \${{ steps.results.outputs.content }} + '\n```'
-          })
+    - name: Comment on PR using GitHub CLI
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      shell: pwsh
+      run: |
+         $json = Get-Content "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\testWorkflowAnalyzer\results.json" -Raw
+         $body = @"
+         **UiPath CLI Analysis Results**
+         $json
+         "@
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$body"
+         
+      
