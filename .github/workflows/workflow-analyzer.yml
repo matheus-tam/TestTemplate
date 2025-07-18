@@ -28,7 +28,7 @@ jobs:
       run: |
          $results = @"
           **UiPath CLI Analysis Results**
-         ${{ steps.read_results.outputs.results }}
+         ${{ steps.results.outputs.results }}
          "@
          
           gh pr comment ${{ github.event.pull_request.number }} --body "$results"
