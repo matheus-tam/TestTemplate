@@ -41,8 +41,8 @@ jobs:
               $rec  = ($item.Recommendation -replace '\|','\|') -replace '\r?\n', ' '
         
               # Escape markdown special characters inside cells
-              $desc = $desc.Replace("`", "\`").Trim()
-              $rec = $rec.Replace("`", "\`").Trim()
+              $desc = $desc.Replace('`', '``').Trim()
+              $rec = $rec.Replace('`', '``').Trim()
         
               $lines += "| $desc | $rec |"
             }
