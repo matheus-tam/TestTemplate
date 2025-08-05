@@ -63,5 +63,6 @@
   "isTemplate": false,
   "templateProjectData": {},
   "publishData": {},
-  "targetFramework": "Windows"
+  "targetFramework": "Windows",
+  "automationHubIdeaUrl": "https://staging.uipath.com/uipathmatheus/DefaultTenant/automationhub_/automation-profile/onboarding-of-new-employee"
 }
