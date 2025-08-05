@@ -14,5 +14,5 @@ jobs:
         shell: pwsh
         run: |
           . .\CiCd_Functions.ps1
-          $phaseIdStatus = GetPhaseId
-          echo $phaseId
+          $processPhaseIdStatus = GetIdeaPhase()
+          echo $processPhaseIdStatus
