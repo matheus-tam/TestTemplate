@@ -14,7 +14,7 @@ function GetIdeaPhase() {
     
     
     # Define auth token for API calls
-    $token = "40fb6963-a66a-4cb4-86b3-868bc22138c3/973805d9-ae37-4e3b-9fe2-b4cbdd706e26"
+    $token = $env:AH_TOKEN
     
     # GET request to /automations endpoint
     $automationsUrl = "https://staging-automation-hub.uipath.com/api/v1/openapi/automations?s=$searchQuery"
