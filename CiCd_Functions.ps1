@@ -1,6 +1,8 @@
 function GetIdeaPhase() {
     # Read the project.json file
-    $projectJson = Get-Content -Path "C:\Users\matheus.pessanha\Documents\UiPath\CICD_Demo\project.json" | ConvertFrom-Json
+    $currentDirectory = $PSScriptRoot
+    $projectJsonPath = Join-Path -Path $currentDirectory -ChildPath "project.json"
+    $projectJson = Get-Content -Path $projectJsonPath | ConvertFrom-Json
     
     # Extract the automationHubIdeaUrl value
     $automationHubIdeaUrl = $projectJson.automationHubIdeaUrl
