@@ -52,6 +52,5 @@ function GetIdeaPhase() {
             } else {
                 $processPhaseIdStatus= "WARNING: Process phase in Automation Hub is not at least Testing"
             }
-        Write-Output $processPhaseIdStatus    
         return $processPhaseIdStatus
 }
