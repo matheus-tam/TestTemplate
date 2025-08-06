@@ -12,6 +12,8 @@ jobs:
 
       - name: Get Automation Hub idea phase
         shell: pwsh
+        env: 
+            AH_TOKEN: ${{ secrets.AH_TOKEN }}
         run: |
           . .\CiCd_Functions.ps1
           $processPhaseIdStatus = GetIdeaPhase
