@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Create dev branch from main
+      - name: Get Automation Hub idea phase
         shell: pwsh
         run: |
           . .\CiCd_Functions.ps1
